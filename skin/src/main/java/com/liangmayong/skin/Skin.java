@@ -20,7 +20,7 @@ public class Skin {
         defualt, primary, success, info, warning, danger, white;
     }
 
-    private static final String SKIN_PREFERENCES_NAME = "android_base_skin_preferences";
+    private static final String SKIN_PREFERENCES_NAME = "android_skin_preferences";
     private static volatile SharedPreferences preferences = null;
     private static volatile Skin skin = null;
     private static volatile Editor editor = null;
