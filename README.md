@@ -3,6 +3,8 @@ this is android skin
 
 download jar : [android-skin-src.jar](https://raw.githubusercontent.com/LiangMaYong/android-skin/master/jar/android-skin-src.jar)
 
+skin color and extras cache in SharedPreferences "android_base_skin_preferences" file;
+
 ##License
 ```
 Copyright 2016 LiangMaYong
