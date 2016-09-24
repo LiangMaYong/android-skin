@@ -4,64 +4,41 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 /**
- * Created by liangmayong on 2016/9/11.
+ * Created by LiangMaYong on 2016/9/24.
  */
-public class SkinTextView extends TextView implements OnSkinRefreshListener {
+public class SkinRelativeLayout extends RelativeLayout implements OnSkinRefreshListener {
 
     private Skin.SkinType skinType = Skin.SkinType.defualt;
     // skinRefreshListener
     private OnSkinRefreshListener skinRefreshListener = null;
-    // private
-    private boolean contrary = false;
-
-    /**
-     * setTextColorContrary
-     *
-     * @param contrary contrary
-     */
-    public void setTextColorContrary(boolean contrary) {
-        this.contrary = contrary;
-    }
-
-    /**
-     * isTextColorContrary
-     *
-     * @return contrary
-     */
-    public boolean isTextColorContrary() {
-        return contrary;
-    }
 
     public void setSkinRefreshListener(OnSkinRefreshListener skinRefreshListener) {
         this.skinRefreshListener = skinRefreshListener;
     }
 
-    public SkinTextView(Context context) {
+    public SkinRelativeLayout(Context context) {
         super(context);
         initView();
     }
 
-    public SkinTextView(Context context, AttributeSet attrs) {
+    public SkinRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public SkinTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public SkinRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SkinTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SkinRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
-    }
-
-    private void initView() {
-        Skin.registerSkinRefresh(this);
     }
 
     /**
@@ -76,6 +53,10 @@ public class SkinTextView extends TextView implements OnSkinRefreshListener {
         }
     }
 
+    private void initView() {
+        Skin.registerSkinRefresh(this);
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         Skin.unregisterSkinRefresh(this);
@@ -84,11 +65,7 @@ public class SkinTextView extends TextView implements OnSkinRefreshListener {
 
     @Override
     public void onRefreshSkin(Skin skin) {
-        if (contrary) {
-            setTextColor(skin.getTextColor(skinType));
-        } else {
-            setTextColor(skin.getColor(skinType));
-        }
+        setBackgroundColor(skin.getColor(skinType));
         if (skinRefreshListener != null) {
             skinRefreshListener.onRefreshSkin(skin);
         }

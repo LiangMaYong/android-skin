@@ -12,6 +12,12 @@ import android.widget.LinearLayout;
 public class SkinLinearLayout extends LinearLayout implements OnSkinRefreshListener {
 
     private Skin.SkinType skinType = Skin.SkinType.defualt;
+    // skinRefreshListener
+    private OnSkinRefreshListener skinRefreshListener = null;
+
+    public void setSkinRefreshListener(OnSkinRefreshListener skinRefreshListener) {
+        this.skinRefreshListener = skinRefreshListener;
+    }
 
     public SkinLinearLayout(Context context) {
         super(context);
@@ -60,5 +66,8 @@ public class SkinLinearLayout extends LinearLayout implements OnSkinRefreshListe
     @Override
     public void onRefreshSkin(Skin skin) {
         setBackgroundColor(skin.getColor(skinType));
+        if (skinRefreshListener != null) {
+            skinRefreshListener.onRefreshSkin(skin);
+        }
     }
 }

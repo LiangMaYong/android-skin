@@ -27,6 +27,12 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     private int defualt_bg_pre_deta = 0x55111111;
     private Skin.SkinType skinType = Skin.SkinType.defualt;
     private boolean strokeEnabled = false;
+    // skinRefreshListener
+    private OnSkinRefreshListener skinRefreshListener = null;
+
+    public void setSkinRefreshListener(OnSkinRefreshListener skinRefreshListener) {
+        this.skinRefreshListener = skinRefreshListener;
+    }
 
     public SkinButton(Context context) {
         super(context);
@@ -171,6 +177,9 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
             ((RadiusDrawable) drawables[0]).setRadius(radius);
             ((RadiusDrawable) drawables[1]).setRadius(radius);
             setTextColor(skin.getColor(skinType));
+        }
+        if (skinRefreshListener != null) {
+            skinRefreshListener.onRefreshSkin(skin);
         }
         invalidate();
     }
