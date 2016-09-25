@@ -1,7 +1,10 @@
 package com.liangmayong.skin;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Handler;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -21,8 +24,8 @@ public class Skin {
     }
 
     private static final String SKIN_PREFERENCES_NAME = "android_skin_preferences";
-    private static volatile SharedPreferences preferences = null;
     private static volatile Skin skin = null;
+    private static volatile long delay = 1000;
     private static volatile Editor editor = null;
     private static final List<OnSkinRefreshListener> SKIN_REFRESH_LISTENERS = new ArrayList<OnSkinRefreshListener>();
 
@@ -59,17 +62,28 @@ public class Skin {
     }
 
     /**
+     * setRefreshDelay
+     *
+     * @param delay delay
+     */
+    public static void setRefreshDelay(long delay) {
+        Skin.delay = delay;
+    }
+
+    /**
      * getSharePreferences
      *
      * @return preferences
      */
     private static SharedPreferences getSharePreferences() {
-        if (preferences == null) {
-            synchronized (Skin.class) {
-                preferences = getApplication().getSharedPreferences(SKIN_PREFERENCES_NAME, 0);
-            }
+        Context context = null;
+        try {
+            context = getApplication().createPackageContext(getApplication().getPackageName(),
+                    Context.CONTEXT_IGNORE_SECURITY);
+        } catch (PackageManager.NameNotFoundException e) {
+            context = getApplication();
         }
-        return preferences;
+        return context.getSharedPreferences(SKIN_PREFERENCES_NAME, 2 | 4);
     }
 
     // application
@@ -132,6 +146,30 @@ public class Skin {
         return editor;
     }
 
+    private Handler handler = new Handler();
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            themeColor = getSharePreferences().getInt("themeColor", themeColor);
+            themeTextColor = getSharePreferences().getInt("themeTextColor", themeTextColor);
+            //colors
+            primaryColor = getSharePreferences().getInt("primaryColor", primaryColor);
+            successColor = getSharePreferences().getInt("successColor", successColor);
+            infoColor = getSharePreferences().getInt("infoColor", infoColor);
+            warningColor = getSharePreferences().getInt("warningColor", warningColor);
+            dangerColor = getSharePreferences().getInt("dangerColor", dangerColor);
+            //text colors
+            primaryTextColor = getSharePreferences().getInt("primaryTextColor", primaryTextColor);
+            successTextColor = getSharePreferences().getInt("successTextColor", successTextColor);
+            infoTextColor = getSharePreferences().getInt("infoTextColor", infoTextColor);
+            warningTextColor = getSharePreferences().getInt("warningTextColor", warningTextColor);
+            dangerTextColor = getSharePreferences().getInt("dangerTextColor", dangerTextColor);
+            refreshSkin();
+            handler.postDelayed(runnable, delay);
+        }
+    };
+
 
     private Skin() {
         reset();
@@ -152,6 +190,8 @@ public class Skin {
         infoTextColor = getSharePreferences().getInt("infoTextColor", infoTextColor);
         warningTextColor = getSharePreferences().getInt("warningTextColor", warningTextColor);
         dangerTextColor = getSharePreferences().getInt("dangerTextColor", dangerTextColor);
+
+        handler.postDelayed(runnable, delay);
     }
 
     private int themeColor = 0;
