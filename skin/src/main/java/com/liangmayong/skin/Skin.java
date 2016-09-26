@@ -72,11 +72,11 @@ public class Skin {
     }
 
     /**
-     * getSharePreferences
+     * getSharedPreferences
      *
      * @return preferences
      */
-    private static SharedPreferences getSharePreferences() {
+    private static SharedPreferences getSharedPreferences() {
         Context context = null;
         try {
             context = getApplication().createPackageContext(getApplication().getPackageName(),
@@ -171,17 +171,17 @@ public class Skin {
             String process = intent.getStringExtra("process");
             if (process != null && !process.equals(getCurrentProcessName(context))) {
                 boolean flag = false;
-                flag = flag || getSharePreferences().getInt("themeColor", themeColor) != themeColor;
-                flag = flag || getSharePreferences().getInt("primaryColor", primaryColor) != primaryColor;
-                flag = flag || getSharePreferences().getInt("successColor", successColor) != successColor;
-                flag = flag || getSharePreferences().getInt("infoColor", infoColor) != infoColor;
-                flag = flag || getSharePreferences().getInt("warningColor", warningColor) != warningColor;
-                flag = flag || getSharePreferences().getInt("themeTextColor", themeTextColor) != themeTextColor;
-                flag = flag || getSharePreferences().getInt("primaryTextColor", primaryTextColor) != primaryTextColor;
-                flag = flag || getSharePreferences().getInt("successTextColor", successTextColor) != successTextColor;
-                flag = flag || getSharePreferences().getInt("infoTextColor", infoTextColor) != infoTextColor;
-                flag = flag || getSharePreferences().getInt("warningTextColor", warningTextColor) != warningTextColor;
-                flag = flag || getSharePreferences().getInt("dangerTextColor", dangerTextColor) != dangerTextColor;
+                flag = flag || getSharedPreferences().getInt("themeColor", themeColor) != themeColor;
+                flag = flag || getSharedPreferences().getInt("primaryColor", primaryColor) != primaryColor;
+                flag = flag || getSharedPreferences().getInt("successColor", successColor) != successColor;
+                flag = flag || getSharedPreferences().getInt("infoColor", infoColor) != infoColor;
+                flag = flag || getSharedPreferences().getInt("warningColor", warningColor) != warningColor;
+                flag = flag || getSharedPreferences().getInt("themeTextColor", themeTextColor) != themeTextColor;
+                flag = flag || getSharedPreferences().getInt("primaryTextColor", primaryTextColor) != primaryTextColor;
+                flag = flag || getSharedPreferences().getInt("successTextColor", successTextColor) != successTextColor;
+                flag = flag || getSharedPreferences().getInt("infoTextColor", infoTextColor) != infoTextColor;
+                flag = flag || getSharedPreferences().getInt("warningTextColor", warningTextColor) != warningTextColor;
+                flag = flag || getSharedPreferences().getInt("dangerTextColor", dangerTextColor) != dangerTextColor;
                 if (flag) {
                     initColorValue();
                     refreshSkin();
@@ -223,20 +223,20 @@ public class Skin {
 
     private void initColorValue() {
         //colors
-        themeColor = getSharePreferences().getInt("themeColor", themeColor);
-        primaryColor = getSharePreferences().getInt("primaryColor", primaryColor);
-        successColor = getSharePreferences().getInt("successColor", successColor);
-        infoColor = getSharePreferences().getInt("infoColor", infoColor);
-        warningColor = getSharePreferences().getInt("warningColor", warningColor);
-        dangerColor = getSharePreferences().getInt("dangerColor", dangerColor);
+        themeColor = getSharedPreferences().getInt("themeColor", themeColor);
+        primaryColor = getSharedPreferences().getInt("primaryColor", primaryColor);
+        successColor = getSharedPreferences().getInt("successColor", successColor);
+        infoColor = getSharedPreferences().getInt("infoColor", infoColor);
+        warningColor = getSharedPreferences().getInt("warningColor", warningColor);
+        dangerColor = getSharedPreferences().getInt("dangerColor", dangerColor);
 
         //text colors
-        themeTextColor = getSharePreferences().getInt("themeTextColor", themeTextColor);
-        primaryTextColor = getSharePreferences().getInt("primaryTextColor", primaryTextColor);
-        successTextColor = getSharePreferences().getInt("successTextColor", successTextColor);
-        infoTextColor = getSharePreferences().getInt("infoTextColor", infoTextColor);
-        warningTextColor = getSharePreferences().getInt("warningTextColor", warningTextColor);
-        dangerTextColor = getSharePreferences().getInt("dangerTextColor", dangerTextColor);
+        themeTextColor = getSharedPreferences().getInt("themeTextColor", themeTextColor);
+        primaryTextColor = getSharedPreferences().getInt("primaryTextColor", primaryTextColor);
+        successTextColor = getSharedPreferences().getInt("successTextColor", successTextColor);
+        infoTextColor = getSharedPreferences().getInt("infoTextColor", infoTextColor);
+        warningTextColor = getSharedPreferences().getInt("warningTextColor", warningTextColor);
+        dangerTextColor = getSharedPreferences().getInt("dangerTextColor", dangerTextColor);
     }
 
     private int themeColor = 0;
@@ -374,7 +374,7 @@ public class Skin {
      * @return value
      */
     public int getExtraColor(String key) {
-        return getSharePreferences().contains("color_" + key) ? getSharePreferences().getInt("color_" + key, 0) : 0;
+        return getSharedPreferences().contains("color_" + key) ? getSharedPreferences().getInt("color_" + key, 0) : 0;
     }
 
     /**
@@ -384,7 +384,7 @@ public class Skin {
      * @return value
      */
     public String getExtraString(String key) {
-        return getSharePreferences().contains("string_" + key) ? getSharePreferences().getString("string_" + key, "") : "";
+        return getSharedPreferences().contains("string_" + key) ? getSharedPreferences().getString("string_" + key, "") : "";
     }
 
     /**
@@ -580,7 +580,7 @@ public class Skin {
      * getCurrentProcessName
      *
      * @param context
-     * @return
+     * @return process name
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     private static String getCurrentProcessName(Context context) {
@@ -616,7 +616,7 @@ public class Skin {
          */
         public Editor setThemeColor(int themeColor, int themeTextColor) {
             Skin.get().setThemeColor(themeColor, themeTextColor);
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("themeColor", themeColor);
             editor.putInt("themeTextColor", themeTextColor);
             editor.commit();
@@ -632,7 +632,7 @@ public class Skin {
          */
         public Editor setPrimaryColor(int primaryColor, int primaryTextColor) {
             Skin.get().setPrimaryColor(primaryColor, primaryTextColor);
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("primaryColor", primaryColor);
             editor.putInt("primaryTextColor", primaryTextColor);
             editor.commit();
@@ -648,7 +648,7 @@ public class Skin {
          */
         public Editor setSuccessColor(int successColor, int successTextColor) {
             Skin.get().setSuccessColor(successColor, successTextColor);
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("successColor", successColor);
             editor.putInt("successTextColor", successTextColor);
             editor.commit();
@@ -665,7 +665,7 @@ public class Skin {
          */
         public Editor setInfoColor(int infoColor, int infoTextColor) {
             Skin.get().setInfoColor(infoColor, infoTextColor);
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("infoColor", infoColor);
             editor.putInt("infoTextColor", infoTextColor);
             editor.commit();
@@ -681,7 +681,7 @@ public class Skin {
          */
         public Editor setWarningColor(int warningColor, int warningTextColor) {
             Skin.get().setWarningColor(warningColor, warningTextColor);
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("warningColor", warningColor);
             editor.putInt("warningTextColor", warningTextColor);
             editor.commit();
@@ -697,7 +697,7 @@ public class Skin {
          */
         public Editor setDangerColor(int dangerColor, int dangerTextColor) {
             Skin.get().setDangerColor(dangerColor, dangerTextColor);
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("dangerColor", dangerColor);
             editor.putInt("dangerTextColor", dangerTextColor);
             editor.commit();
@@ -711,7 +711,7 @@ public class Skin {
          * @param value value
          */
         public Editor setExtraColor(String key, int value) {
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putInt("color_" + key, value);
             editor.commit();
             return this;
@@ -724,7 +724,7 @@ public class Skin {
          * @param value value
          */
         public Editor setExtraString(String key, String value) {
-            SharedPreferences.Editor editor = getSharePreferences().edit();
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
             editor.putString("string_" + key, value);
             editor.commit();
             return this;
