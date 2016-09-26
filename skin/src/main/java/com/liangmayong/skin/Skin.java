@@ -1,10 +1,12 @@
 package com.liangmayong.skin;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.os.Message;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -83,7 +85,7 @@ public class Skin {
         } catch (PackageManager.NameNotFoundException e) {
             context = getApplication();
         }
-        return context.getSharedPreferences(SKIN_PREFERENCES_NAME, 2 | 4);
+        return context.getSharedPreferences(SKIN_PREFERENCES_NAME, 0 | 2 | 4);
     }
 
     // application
@@ -146,38 +148,56 @@ public class Skin {
         return editor;
     }
 
-    private Handler handler = new Handler();
-
-    private Runnable runnable = new Runnable() {
+    // handler
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
         @Override
-        public void run() {
-            themeColor = getSharePreferences().getInt("themeColor", themeColor);
-            themeTextColor = getSharePreferences().getInt("themeTextColor", themeTextColor);
-            //colors
-            primaryColor = getSharePreferences().getInt("primaryColor", primaryColor);
-            successColor = getSharePreferences().getInt("successColor", successColor);
-            infoColor = getSharePreferences().getInt("infoColor", infoColor);
-            warningColor = getSharePreferences().getInt("warningColor", warningColor);
-            dangerColor = getSharePreferences().getInt("dangerColor", dangerColor);
-            //text colors
-            primaryTextColor = getSharePreferences().getInt("primaryTextColor", primaryTextColor);
-            successTextColor = getSharePreferences().getInt("successTextColor", successTextColor);
-            infoTextColor = getSharePreferences().getInt("infoTextColor", infoTextColor);
-            warningTextColor = getSharePreferences().getInt("warningTextColor", warningTextColor);
-            dangerTextColor = getSharePreferences().getInt("dangerTextColor", dangerTextColor);
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             refreshSkin();
-            handler.postDelayed(runnable, delay);
         }
     };
 
-
     private Skin() {
-        reset();
-        //defualt
-        themeColor = getSharePreferences().getInt("themeColor", themeColor);
-        themeTextColor = getSharePreferences().getInt("themeTextColor", themeTextColor);
+        resetColorValue();
+        initColorValue();
+        initSkinThread();
+    }
 
+    /**
+     * resetColorValue
+     */
+    private void resetColorValue() {
+        //themeColor
+        themeColor = 0xff333333;
+        //themeTextColor
+        themeTextColor = 0xffffffff;
+        //primaryColor
+        primaryColor = 0xff428bca;
+        //successColor
+        successColor = 0xff5cb85c;
+        //infoColor
+        infoColor = 0xff5bc0de;
+        //warningColor
+        warningColor = 0xfff0ad4e;
+        //dangerColor
+        dangerColor = 0xffd9534f;
+
+        //primaryColor
+        primaryTextColor = 0xffffffff;
+        //successColor
+        successTextColor = 0xffffffff;
+        //infoColor
+        infoTextColor = 0xffffffff;
+        //warningColor
+        warningTextColor = 0xffffffff;
+        //dangerColor
+        dangerTextColor = 0xffffffff;
+    }
+
+    private void initColorValue() {
         //colors
+        themeColor = getSharePreferences().getInt("themeColor", themeColor);
         primaryColor = getSharePreferences().getInt("primaryColor", primaryColor);
         successColor = getSharePreferences().getInt("successColor", successColor);
         infoColor = getSharePreferences().getInt("infoColor", infoColor);
@@ -185,13 +205,50 @@ public class Skin {
         dangerColor = getSharePreferences().getInt("dangerColor", dangerColor);
 
         //text colors
+        themeTextColor = getSharePreferences().getInt("themeTextColor", themeTextColor);
         primaryTextColor = getSharePreferences().getInt("primaryTextColor", primaryTextColor);
         successTextColor = getSharePreferences().getInt("successTextColor", successTextColor);
         infoTextColor = getSharePreferences().getInt("infoTextColor", infoTextColor);
         warningTextColor = getSharePreferences().getInt("warningTextColor", warningTextColor);
         dangerTextColor = getSharePreferences().getInt("dangerTextColor", dangerTextColor);
+    }
 
-        handler.postDelayed(runnable, delay);
+    /**
+     * initSkinThread
+     */
+    private final void initSkinThread() {
+        new RefreshSkinThread().start();
+    }
+
+    /**
+     * RefreshSkinThread
+     */
+    private class RefreshSkinThread extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                boolean flag = false;
+                flag = flag || getSharePreferences().getInt("themeColor", themeColor) != themeColor;
+                flag = flag || getSharePreferences().getInt("primaryColor", primaryColor) != primaryColor;
+                flag = flag || getSharePreferences().getInt("successColor", successColor) != successColor;
+                flag = flag || getSharePreferences().getInt("infoColor", infoColor) != infoColor;
+                flag = flag || getSharePreferences().getInt("warningColor", warningColor) != warningColor;
+                flag = flag || getSharePreferences().getInt("themeTextColor", themeTextColor) != themeTextColor;
+                flag = flag || getSharePreferences().getInt("primaryTextColor", primaryTextColor) != primaryTextColor;
+                flag = flag || getSharePreferences().getInt("successTextColor", successTextColor) != successTextColor;
+                flag = flag || getSharePreferences().getInt("infoTextColor", infoTextColor) != infoTextColor;
+                flag = flag || getSharePreferences().getInt("warningTextColor", warningTextColor) != warningTextColor;
+                flag = flag || getSharePreferences().getInt("dangerTextColor", dangerTextColor) != dangerTextColor;
+                if (flag) {
+                    initColorValue();
+                    handler.sendEmptyMessage(0);
+                }
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                }
+            }
+        }
     }
 
     private int themeColor = 0;
@@ -236,38 +293,6 @@ public class Skin {
     public int getThemeTextColor() {
         return themeTextColor;
     }
-
-    /**
-     * reset
-     */
-    private void reset() {
-        //themeColor
-        themeColor = 0xff333333;
-        //themeTextColor
-        themeTextColor = 0xffffffff;
-        //primaryColor
-        primaryColor = 0xff428bca;
-        //successColor
-        successColor = 0xff5cb85c;
-        //infoColor
-        infoColor = 0xff5bc0de;
-        //warningColor
-        warningColor = 0xfff0ad4e;
-        //dangerColor
-        dangerColor = 0xffd9534f;
-
-        //primaryColor
-        primaryTextColor = 0xffffffff;
-        //successColor
-        successTextColor = 0xffffffff;
-        //infoColor
-        infoTextColor = 0xffffffff;
-        //warningColor
-        warningTextColor = 0xffffffff;
-        //dangerColor
-        dangerTextColor = 0xffffffff;
-    }
-
 
     public int getPrimaryColor() {
         return primaryColor;
@@ -696,10 +721,10 @@ public class Skin {
         }
 
         /**
-         * reset
+         * resetColorValue
          */
         public Editor reset() {
-            Skin.get().reset();
+            Skin.get().resetColorValue();
             return this;
         }
 
