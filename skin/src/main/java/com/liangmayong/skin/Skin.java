@@ -1,16 +1,24 @@
 package com.liangmayong.skin;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,8 +34,8 @@ public class Skin {
     }
 
     private static final String SKIN_PREFERENCES_NAME = "android_skin_preferences";
+    private static final String SKIN_RECEIVER_ACTION = ".android_skin_refresh_action";
     private static volatile Skin skin = null;
-    private static volatile long delay = 1000;
     private static volatile Editor editor = null;
     private static final List<OnSkinRefreshListener> SKIN_REFRESH_LISTENERS = new ArrayList<OnSkinRefreshListener>();
 
@@ -61,15 +69,6 @@ public class Skin {
         for (int i = 0; i < SKIN_REFRESH_LISTENERS.size(); i++) {
             SKIN_REFRESH_LISTENERS.get(i).onRefreshSkin(get());
         }
-    }
-
-    /**
-     * setRefreshDelay
-     *
-     * @param delay delay
-     */
-    public static void setRefreshDelay(long delay) {
-        Skin.delay = delay;
     }
 
     /**
@@ -161,7 +160,34 @@ public class Skin {
     private Skin() {
         resetColorValue();
         initColorValue();
-        initSkinThread();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(getApplication().getPackageName() + SKIN_RECEIVER_ACTION);
+        getApplication().registerReceiver(new SkinReceiver(), filter);
+    }
+
+    private class SkinReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String process = intent.getStringExtra("process");
+            if (process != null && !process.equals(getCurrentProcessName(context))) {
+                boolean flag = false;
+                flag = flag || getSharePreferences().getInt("themeColor", themeColor) != themeColor;
+                flag = flag || getSharePreferences().getInt("primaryColor", primaryColor) != primaryColor;
+                flag = flag || getSharePreferences().getInt("successColor", successColor) != successColor;
+                flag = flag || getSharePreferences().getInt("infoColor", infoColor) != infoColor;
+                flag = flag || getSharePreferences().getInt("warningColor", warningColor) != warningColor;
+                flag = flag || getSharePreferences().getInt("themeTextColor", themeTextColor) != themeTextColor;
+                flag = flag || getSharePreferences().getInt("primaryTextColor", primaryTextColor) != primaryTextColor;
+                flag = flag || getSharePreferences().getInt("successTextColor", successTextColor) != successTextColor;
+                flag = flag || getSharePreferences().getInt("infoTextColor", infoTextColor) != infoTextColor;
+                flag = flag || getSharePreferences().getInt("warningTextColor", warningTextColor) != warningTextColor;
+                flag = flag || getSharePreferences().getInt("dangerTextColor", dangerTextColor) != dangerTextColor;
+                if (flag) {
+                    initColorValue();
+                    refreshSkin();
+                }
+            }
+        }
     }
 
     /**
@@ -211,44 +237,6 @@ public class Skin {
         infoTextColor = getSharePreferences().getInt("infoTextColor", infoTextColor);
         warningTextColor = getSharePreferences().getInt("warningTextColor", warningTextColor);
         dangerTextColor = getSharePreferences().getInt("dangerTextColor", dangerTextColor);
-    }
-
-    /**
-     * initSkinThread
-     */
-    private final void initSkinThread() {
-        new RefreshSkinThread().start();
-    }
-
-    /**
-     * RefreshSkinThread
-     */
-    private class RefreshSkinThread extends Thread {
-        @Override
-        public void run() {
-            while (true) {
-                boolean flag = false;
-                flag = flag || getSharePreferences().getInt("themeColor", themeColor) != themeColor;
-                flag = flag || getSharePreferences().getInt("primaryColor", primaryColor) != primaryColor;
-                flag = flag || getSharePreferences().getInt("successColor", successColor) != successColor;
-                flag = flag || getSharePreferences().getInt("infoColor", infoColor) != infoColor;
-                flag = flag || getSharePreferences().getInt("warningColor", warningColor) != warningColor;
-                flag = flag || getSharePreferences().getInt("themeTextColor", themeTextColor) != themeTextColor;
-                flag = flag || getSharePreferences().getInt("primaryTextColor", primaryTextColor) != primaryTextColor;
-                flag = flag || getSharePreferences().getInt("successTextColor", successTextColor) != successTextColor;
-                flag = flag || getSharePreferences().getInt("infoTextColor", infoTextColor) != infoTextColor;
-                flag = flag || getSharePreferences().getInt("warningTextColor", warningTextColor) != warningTextColor;
-                flag = flag || getSharePreferences().getInt("dangerTextColor", dangerTextColor) != dangerTextColor;
-                if (flag) {
-                    initColorValue();
-                    handler.sendEmptyMessage(0);
-                }
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                }
-            }
-        }
     }
 
     private int themeColor = 0;
@@ -589,6 +577,28 @@ public class Skin {
     }
 
     /**
+     * getCurrentProcessName
+     *
+     * @param context
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+    private static String getCurrentProcessName(Context context) {
+        int pid = Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        @SuppressWarnings("rawtypes")
+        Iterator i$ = mActivityManager.getRunningAppProcesses().iterator();
+        ActivityManager.RunningAppProcessInfo appProcess;
+        do {
+            if (!i$.hasNext()) {
+                return null;
+            }
+            appProcess = (ActivityManager.RunningAppProcessInfo) i$.next();
+        } while (appProcess.pid != pid);
+        return appProcess.processName;
+    }
+
+    /**
      * Editor
      */
     public static class Editor {
@@ -733,6 +743,9 @@ public class Skin {
          */
         public void commit() {
             refreshSkin();
+            Intent intent = new Intent(getApplication().getPackageName() + SKIN_RECEIVER_ACTION);
+            intent.putExtra("process", getCurrentProcessName(getApplication()));
+            getApplication().sendBroadcast(intent);
         }
 
     }
