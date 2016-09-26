@@ -169,7 +169,7 @@ public class Skin {
         @Override
         public void onReceive(Context context, Intent intent) {
             String process = intent.getStringExtra("process");
-            if (process != null && !process.equals(getCurrentProcessName(context))) {
+            if (process != null && !process.equals(getCurrentProcessName(context) + "@" + hashCode())) {
                 boolean flag = false;
                 flag = flag || getSharedPreferences().getInt("themeColor", themeColor) != themeColor;
                 flag = flag || getSharedPreferences().getInt("primaryColor", primaryColor) != primaryColor;
@@ -744,7 +744,7 @@ public class Skin {
         public void commit() {
             refreshSkin();
             Intent intent = new Intent(getApplication().getPackageName() + SKIN_RECEIVER_ACTION);
-            intent.putExtra("process", getCurrentProcessName(getApplication()));
+            intent.putExtra("process", getCurrentProcessName(getApplication()) + "@" + hashCode());
             getApplication().sendBroadcast(intent);
         }
 
