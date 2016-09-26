@@ -1,7 +1,7 @@
 ﻿# android-skin
 this is android skin
 
-[![LatestVersion](https://img.shields.io/badge/LatestVersion-1.0.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-base/releases)
+[![LatestVersion](https://img.shields.io/badge/LatestVersion-1.0.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-skin/releases)
 
 download jar : [android-skin-src.jar](https://raw.githubusercontent.com/LiangMaYong/android-skin/master/jar/android-skin-src.jar)
 
