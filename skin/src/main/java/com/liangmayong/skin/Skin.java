@@ -374,7 +374,8 @@ public class Skin {
      * @return value
      */
     public int getExtraColor(String key) {
-        return getSharedPreferences().contains("color_" + key) ? getSharedPreferences().getInt("color_" + key, 0) : 0;
+        int color = getSharedPreferences().contains("color_" + key) ? getSharedPreferences().getInt("color_" + key, 0) : 0;
+        return color;
     }
 
     /**

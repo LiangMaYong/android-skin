@@ -7,8 +7,6 @@ import android.view.View;
 
 import com.liangmayong.skin.Skin;
 
-import java.security.PublicKey;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -16,10 +14,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
-        startActivity(new Intent(this, Main2Activity.class));
     }
 
     public void click(View view) {
-
+        startActivity(new Intent(this, Main2Activity.class));
     }
 }

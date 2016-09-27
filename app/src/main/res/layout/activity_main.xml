@@ -12,17 +12,15 @@
 
     <com.liangmayong.skin.SkinTextView
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Hello Skin!" />
 
     <com.liangmayong.skin.SkinButton
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="20dp"
-        android:background="#3399ff"
-        android:gravity="center"
         android:onClick="click"
-        android:text="SKIN-BUTTON"
-        android:textColor="#ffffff" />
+        android:padding="0dp"
+        android:text="SKIN-BUTTON"/>
 </RelativeLayout>

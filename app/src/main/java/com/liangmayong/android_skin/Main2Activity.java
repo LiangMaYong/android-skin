@@ -16,6 +16,7 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     public void click(View view) {
-
+        Skin.editor().setThemeColor(0xff3399ff, 0xff333333).commit();
+        finish();
     }
 }
