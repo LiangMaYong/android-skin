@@ -12,13 +12,14 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
-import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by liangmayong on 2016/9/11.
  */
-public class SkinButton extends Button implements OnSkinRefreshListener {
+public class SkinButton extends TextView implements OnSkinRefreshListener {
 
     private Drawable[] drawables = new Drawable[2];
     private int radius = 0;
@@ -69,10 +70,11 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
 
     @SuppressWarnings("deprecation")
     private void initView() {
+        setGravity(Gravity.CENTER);
+        super.setTextColor(defualt_text_color);
         radius = dip2px(getContext(), 5);
         drawables[0] = new RadiusDrawable(radius, true, Skin.get().getColor(skinType) - defualt_bg_nor_deta);
         drawables[1] = new RadiusDrawable(radius, true, Skin.get().getColor(skinType) - defualt_bg_pre_deta);
-        super.setTextColor(defualt_text_color);
         setBackgroundDrawable(drawables[0]);
         Skin.registerSkinRefresh(this);
     }
@@ -140,19 +142,21 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     @SuppressWarnings("deprecation")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (drawables[1] != null) {
-                    setBackgroundDrawable(drawables[1]);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (drawables[0] != null) {
-                    setBackgroundDrawable(drawables[0]);
-                }
-                break;
-            default:
-                break;
+        if (isClickable()) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (drawables[1] != null) {
+                        setBackgroundDrawable(drawables[1]);
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (drawables[0] != null) {
+                        setBackgroundDrawable(drawables[0]);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         return super.onTouchEvent(event);
     }
