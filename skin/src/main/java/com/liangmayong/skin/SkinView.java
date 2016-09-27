@@ -2,6 +2,7 @@ package com.liangmayong.skin;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -21,24 +22,35 @@ public class SkinView extends View implements OnSkinRefreshListener {
 
     public SkinView(Context context) {
         super(context);
-        initView();
+        initView(context, null);
     }
 
     public SkinView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        initView(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public SkinView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
+        initView(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SkinView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initView();
+        initView(context, attrs);
+    }
+
+
+    private void initView(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SkinStyleable);
+            int skin = typedArray.getInt(R.styleable.SkinStyleable_skin_type, skinType.value());
+            skinType = Skin.SkinType.valueOf(skin);
+            typedArray.recycle();
+        }
+        Skin.registerSkinRefresh(this);
     }
 
     /**

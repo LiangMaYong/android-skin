@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.liangmayong.skin.Skin;
-import com.liangmayong.skin.SkinBaseButton;
-import com.liangmayong.skin.SkinStrokeButton;
 
 public class Main2Activity extends AppCompatActivity {
 

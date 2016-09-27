@@ -30,7 +30,38 @@ public class Skin {
      * SkinType
      */
     public static enum SkinType {
-        defualt, primary, success, info, warning, danger, white;
+        defualt(0), primary(1), success(2), info(3), warning(4), danger(5), white(6);
+
+        private int value = 0;
+
+        private SkinType(int value) {
+            this.value = value;
+        }
+
+        public static SkinType valueOf(int value) {
+            switch (value) {
+                case 0:
+                    return defualt;
+                case 1:
+                    return primary;
+                case 2:
+                    return success;
+                case 3:
+                    return info;
+                case 4:
+                    return warning;
+                case 5:
+                    return danger;
+                case 6:
+                    return white;
+                default:
+                    return defualt;
+            }
+        }
+
+        public int value() {
+            return this.value;
+        }
     }
 
     private static final String SKIN_PREFERENCES_NAME = "android_skin_preferences";
