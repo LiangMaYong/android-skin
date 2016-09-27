@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="Hello Skin!" />
 
-    <com.liangmayong.skin.SkinButton
+    <com.liangmayong.skin.SkinStrokeButton
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="20dp"

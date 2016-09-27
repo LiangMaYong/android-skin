@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.liangmayong.skin.Skin;
+import com.liangmayong.skin.SkinBaseButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void click(View view) {
+        if (((SkinBaseButton) view).getShapeType() == SkinBaseButton.SHAPE_TYPE_STROKE) {
+            ((SkinBaseButton) view).setShapeType(SkinBaseButton.SHAPE_TYPE_RECTANGLE);
+        } else {
+            ((SkinBaseButton) view).setShapeType(SkinBaseButton.SHAPE_TYPE_STROKE);
+        }
         startActivity(new Intent(this, Main2Activity.class));
     }
 }

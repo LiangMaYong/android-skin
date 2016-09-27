@@ -29,6 +29,7 @@ public class SkinStrokeButton extends SkinButton {
     }
 
     private void initSkinStrokeButton() {
-        setStrokeEnable(true);
+        setShapeType(SHAPE_TYPE_STROKE);
+        setRadius(dip2px(getContext(), 5));
     }
 }

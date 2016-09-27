@@ -55,26 +55,22 @@ public class SkinButton extends SkinBaseButton {
         mPressedPaint.setAntiAlias(true);
     }
 
-
-    @Override
-    public void setStrokeEnable(boolean strokeEnable) {
-        if (strokeEnable) {
-            mPressedPaint.setStyle(Paint.Style.STROKE);
-            mPressedPaint.setStrokeWidth(mStrokeWidth);
-        } else {
-            mPressedPaint.setStyle(Paint.Style.FILL);
-            mPressedPaint.setStrokeWidth(dip2px(getContext(), 0));
-        }
-        super.setStrokeEnable(strokeEnable);
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mShapeType == 0) {
+            mPressedPaint.setStyle(Paint.Style.FILL);
+            mBackgroundPaint.setStrokeWidth(0);
             canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth / 2.1038f,
                     mPressedPaint);
+        } else if (mShapeType == SHAPE_TYPE_STROKE) {
+            mPressedPaint.setStyle(Paint.Style.STROKE);
+            mPressedPaint.setStrokeJoin(Paint.Join.MITER);
+            mPressedPaint.setStrokeWidth(mStrokeWidth);
+            canvas.drawPath(getPath(0, 0, mWidth, mHeight), mPressedPaint);
         } else {
+            mPressedPaint.setStyle(Paint.Style.FILL);
+            mBackgroundPaint.setStrokeWidth(0);
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
             canvas.drawRoundRect(rectF, mRadius, mRadius, mPressedPaint);
