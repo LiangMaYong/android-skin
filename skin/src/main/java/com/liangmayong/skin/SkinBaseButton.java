@@ -71,8 +71,8 @@ public class SkinBaseButton extends Button implements OnSkinRefreshListener {
     protected void initSkinBaseButton(final Context context, final AttributeSet attrs) {
         if (isInEditMode()) return;
         mShapeType = SHAPE_TYPE_RECTANGLE;
-        mRadius = dip2px(context, 5);
-        mStrokeWidth = dip2px(context, 2);
+        mRadius = dip2px(context, 8);
+        mStrokeWidth = dip2px(context, 1.4f);
         int unpressedColor = 0xff333333;
 
         mBackgroundPaint = new Paint();
@@ -108,6 +108,9 @@ public class SkinBaseButton extends Button implements OnSkinRefreshListener {
         if (mBackgroundPaint == null) {
             super.onDraw(canvas);
             return;
+        }
+        if (mRadius > mHeight / 2 || mRadius > mWidth / 2) {
+            mRadius = Math.min(mHeight / 2, mWidth / 2);
         }
         if (mShapeType == SHAPE_TYPE_ROUND) {
             mBackgroundPaint.setStyle(Paint.Style.FILL);
@@ -159,9 +162,6 @@ public class SkinBaseButton extends Button implements OnSkinRefreshListener {
 
 
     protected Path getPath(int left, int top, int right, int bottom) {
-        int maxRadius = Math.abs((bottom - top) / 2);
-        if (mRadius > maxRadius)
-            mRadius = maxRadius;
         int halfStrokeWidth = mStrokeWidth / 2;
         left += halfStrokeWidth;
         top += halfStrokeWidth;
