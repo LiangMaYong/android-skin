@@ -30,7 +30,7 @@ public class Skin {
      * SkinType
      */
     public static enum SkinType {
-        defualt(0), primary(1), success(2), info(3), warning(4), danger(5), white(6), black(7);
+        defualt(0), primary(1), success(2), info(3), warning(4), danger(5), white(6), gray(7), black(8);
 
         private int value = 0;
 
@@ -55,6 +55,8 @@ public class Skin {
                 case 6:
                     return white;
                 case 7:
+                    return gray;
+                case 8:
                     return black;
                 default:
                     return defualt;
@@ -227,6 +229,10 @@ public class Skin {
      * resetColorValue
      */
     private void resetColorValue() {
+        //grayColor
+        grayColor = 0xffb1b1b1;
+        //grayTextColor
+        grayTextColor = 0xffffffff;
         //themeColor
         themeColor = 0xff333333;
         //themeTextColor
@@ -255,6 +261,8 @@ public class Skin {
     }
 
     private void initColorValue() {
+        grayColor = getSharedPreferences().getInt("grayColor", grayColor);
+        grayTextColor = getSharedPreferences().getInt("grayTextColor", grayTextColor);
         //colors
         themeColor = getSharedPreferences().getInt("themeColor", themeColor);
         primaryColor = getSharedPreferences().getInt("primaryColor", primaryColor);
@@ -272,6 +280,8 @@ public class Skin {
         dangerTextColor = getSharedPreferences().getInt("dangerTextColor", dangerTextColor);
     }
 
+    private int grayColor = 0;
+
     private int themeColor = 0;
 
     private int themeTextColor = 0;
@@ -286,6 +296,8 @@ public class Skin {
     //dangerColor
     private int dangerColor = 0;
 
+    //grayTextColor
+    private int grayTextColor = 0;
     //primaryColor
     private int primaryTextColor = 0;
     //successColor
@@ -355,6 +367,14 @@ public class Skin {
         return dangerTextColor;
     }
 
+    public int getGrayColor() {
+        return grayColor;
+    }
+
+    public int getGrayTextColor() {
+        return grayTextColor;
+    }
+
     public int getColor(SkinType skinType) {
         if (hasColor(skinType)) {
             switch (skinType) {
@@ -372,6 +392,8 @@ public class Skin {
                     return 0xffffffff;
                 case black:
                     return 0xff333333;
+                case gray:
+                    return getGrayColor();
                 default:
                     return getThemeColor();
             }
@@ -397,6 +419,8 @@ public class Skin {
                     return 0xff333333;
                 case black:
                     return 0xffffffff;
+                case gray:
+                    return getGrayTextColor();
                 default:
                     return getThemeTextColor();
             }
@@ -445,6 +469,17 @@ public class Skin {
     private void setPrimaryColor(int primaryColor, int primaryTextColor) {
         this.primaryColor = primaryColor;
         this.primaryTextColor = primaryTextColor;
+    }
+
+    /**
+     * setGrayColor
+     *
+     * @param grayColor     grayColor
+     * @param grayTextColor grayTextColor
+     */
+    private void setGrayColor(int grayColor, int grayTextColor) {
+        this.grayColor = grayColor;
+        this.grayTextColor = grayTextColor;
     }
 
     /**
@@ -522,6 +557,8 @@ public class Skin {
                 return hasDangerColor();
             case defualt:
                 return hasThemeColor();
+            case gray:
+                return true;
             case white:
                 return true;
             case black:
@@ -695,6 +732,21 @@ public class Skin {
             return this;
         }
 
+        /**
+         * setGrayColor
+         *
+         * @param grayColor     grayColor
+         * @param grayTextColor grayTextColor
+         * @return editor
+         */
+        public Editor setGrayColor(int grayColor, int grayTextColor) {
+            Skin.get().setGrayColor(grayColor, grayTextColor);
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
+            editor.putInt("grayColor", grayColor);
+            editor.putInt("grayTextColor", grayTextColor);
+            editor.commit();
+            return this;
+        }
 
         /**
          * setInfoColor

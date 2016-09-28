@@ -71,7 +71,8 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
     <enum name="warning" value="4" />
     <enum name="danger" value="5" />
     <enum name="white" value="6" />
-    <enum name="black" value="7" />
+    <enum name="gray" value="7" />
+    <enum name="black" value="8" />
 </attr>
 </declare-styleable>
 ```

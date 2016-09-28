@@ -27,7 +27,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="SKIN-BUTTON"
-        skin:background_cover="#50333333"
         skin:shape_type="stroke"
+        skin:skin_type="gray"
         skin:stroke_width="2dp" />
 </com.liangmayong.skin.SkinLinearLayout>
