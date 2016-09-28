@@ -303,7 +303,11 @@ public class SkinTextView extends TextView implements OnSkinRefreshListener {
                 setTextColor(Skin.get().getTextColor(skinType));
             }
         }
-        invalidate();
+        if (isSetSkinColor) {
+            setUnpressedColor(mSkinColor);
+        } else {
+            setUnpressedColor(Skin.get().getColor(skinType));
+        }
     }
 
 
@@ -353,6 +357,26 @@ public class SkinTextView extends TextView implements OnSkinRefreshListener {
 
     public void setSkinRefreshListener(OnSkinRefreshListener skinRefreshListener) {
         this.skinRefreshListener = skinRefreshListener;
+    }
+
+
+    public void setSkinType(Skin.SkinType skinType) {
+        this.skinType = skinType;
+        this.isSetSkinColor = false;
+        this.isSetSkinTextColor = false;
+        setShapeType(mShapeType);
+    }
+
+    public void setSkinColor(int mSkinColor) {
+        this.mSkinColor = mSkinColor;
+        this.isSetSkinColor = true;
+        setShapeType(mShapeType);
+    }
+
+    public void setSkinTextColor(int mSkinTextColor) {
+        this.mSkinTextColor = mSkinTextColor;
+        this.isSetSkinTextColor = true;
+        setShapeType(mShapeType);
     }
 
 }
