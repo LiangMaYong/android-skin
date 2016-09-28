@@ -1,7 +1,7 @@
 ﻿# android-skin
-this is android skin
+this is android skin library and UI
 
-[![LatestVersion](https://img.shields.io/badge/LatestVersion-1.1.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-skin/releases/tag/V1.1.0)
+[![LatestVersion](https://img.shields.io/badge/LatestVersion-1.0.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-skin/releases/tag/V1.0.0)
 
 ## gradle
 ```
@@ -15,6 +15,8 @@ SkinButton
 SkinTextView
 
 SkinRelativeLayout
+
+SkinSquareLayout
 
 SkinLinearLayout
 ##　setting skin
@@ -34,7 +36,10 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
     <enum name="rectangle" value="1" />
     <enum name="stroke" value="2" />
     <enum name="oval" value="3" />
+    <enum name="transparent" value="4" />
 </attr>
+<attr name="skin_color" format="color" />
+<attr name="skin_text_color" format="color" />
 <attr name="skin_type" format="enum">
     <enum name="defualt" value="0" />
     <enum name="primary" value="1" />
@@ -43,6 +48,7 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
     <enum name="warning" value="4" />
     <enum name="danger" value="5" />
     <enum name="white" value="6" />
+    <enum name="black" value="7" />
 </attr>
 </declare-styleable>
 ```

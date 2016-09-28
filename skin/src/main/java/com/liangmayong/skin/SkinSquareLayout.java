@@ -11,12 +11,12 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 /**
  * Created by LiangMaYong on 2016/9/27.
  */
-public class SkinRelativeLayout extends RelativeLayout implements OnSkinRefreshListener {
+public class SkinSquareLayout extends LinearLayout implements OnSkinRefreshListener {
 
     public static final int SHAPE_TYPE_ROUND = 0;
     public static final int SHAPE_TYPE_RECTANGLE = 1;
@@ -40,26 +40,26 @@ public class SkinRelativeLayout extends RelativeLayout implements OnSkinRefreshL
     private Skin.SkinType skinType = Skin.SkinType.defualt;
 
 
-    public SkinRelativeLayout(Context context) {
+    public SkinSquareLayout(Context context) {
         this(context, null);
     }
 
 
-    public SkinRelativeLayout(Context context, AttributeSet attrs) {
+    public SkinSquareLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initBG(context, attrs);
     }
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public SkinRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SkinSquareLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initBG(context, attrs);
     }
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SkinRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SkinSquareLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initBG(context, attrs);
     }
@@ -68,6 +68,19 @@ public class SkinRelativeLayout extends RelativeLayout implements OnSkinRefreshL
         this.mStrokeWidth = mStrokeWidth;
         invalidate();
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
+
+        // Children are just made to fill our space.
+        int childWidthSize = getMeasuredWidth();
+
+        heightMeasureSpec = widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
 
     /**
      * dip2px

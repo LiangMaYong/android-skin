@@ -30,7 +30,7 @@ public class Skin {
      * SkinType
      */
     public static enum SkinType {
-        defualt(0), primary(1), success(2), info(3), warning(4), danger(5), white(6);
+        defualt(0), primary(1), success(2), info(3), warning(4), danger(5), white(6), black(7);
 
         private int value = 0;
 
@@ -54,6 +54,8 @@ public class Skin {
                     return danger;
                 case 6:
                     return white;
+                case 7:
+                    return black;
                 default:
                     return defualt;
             }
@@ -368,6 +370,8 @@ public class Skin {
                     return getDangerColor();
                 case white:
                     return 0xffffffff;
+                case black:
+                    return 0xff333333;
                 default:
                     return getThemeColor();
             }
@@ -391,6 +395,8 @@ public class Skin {
                     return getDangerTextColor();
                 case white:
                     return 0xff333333;
+                case black:
+                    return 0xffffffff;
                 default:
                     return getThemeTextColor();
             }
@@ -517,6 +523,8 @@ public class Skin {
             case defualt:
                 return hasThemeColor();
             case white:
+                return true;
+            case black:
                 return true;
             default:
                 return false;

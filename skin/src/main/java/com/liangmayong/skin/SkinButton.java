@@ -22,6 +22,7 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     public static final int SHAPE_TYPE_RECTANGLE = 1;
     public static final int SHAPE_TYPE_STROKE = 2;
     public static final int SHAPE_TYPE_OVAL = 3;
+    public static final int SHAPE_TYPE_TRANSPARENT = 4;
 
     protected int mWidth;
     protected int mHeight;
@@ -32,6 +33,10 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     private int mPressedAlpha = 50;
     private Paint mPressedPaint;
     private int mPressedColor;
+    private int mSkinColor;
+    private int mSkinTextColor;
+    private boolean isSetSkinColor = false;
+    private boolean isSetSkinTextColor = false;
     private Skin.SkinType skinType = Skin.SkinType.defualt;
 
 
@@ -88,6 +93,14 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
             mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_stroke_width, dip2px(context, 2));
             int skin = typedArray.getInt(R.styleable.SkinStyleable_skin_type, skinType.value());
             skinType = Skin.SkinType.valueOf(skin);
+            if (typedArray.hasValue(R.styleable.SkinStyleable_skin_color)) {
+                mSkinColor = typedArray.getColor(R.styleable.SkinStyleable_skin_color, Skin.get().getColor(skinType));
+                isSetSkinColor = true;
+            }
+            if (typedArray.hasValue(R.styleable.SkinStyleable_skin_text_color)) {
+                mSkinTextColor = typedArray.getColor(R.styleable.SkinStyleable_skin_text_color, Skin.get().getTextColor(skinType));
+                isSetSkinTextColor = true;
+            }
             typedArray.recycle();
         }
         mBackgroundPaint = new Paint();
@@ -137,6 +150,8 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
             canvas.drawOval(rectF, mBackgroundPaint);
+        } else if (mShapeType == SHAPE_TYPE_TRANSPARENT) {
+
         } else if (mShapeType == SHAPE_TYPE_STROKE) {
             mBackgroundPaint.setStyle(Paint.Style.STROKE);
             mBackgroundPaint.setStrokeJoin(Paint.Join.MITER);
@@ -195,6 +210,8 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
             canvas.drawOval(rectF, mPressedPaint);
+        } else if (mShapeType == SHAPE_TYPE_TRANSPARENT) {
+
         } else {
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
@@ -274,10 +291,18 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
      */
     public void setShapeType(int shapeType) {
         mShapeType = shapeType;
-        if (mShapeType == SHAPE_TYPE_STROKE) {
-            setTextColor(Skin.get().getColor(skinType));
+        if (mShapeType == SHAPE_TYPE_STROKE || mShapeType == SHAPE_TYPE_TRANSPARENT) {
+            if (isSetSkinColor) {
+                setTextColor(mSkinColor);
+            } else {
+                setTextColor(Skin.get().getColor(skinType));
+            }
         } else {
-            setTextColor(Skin.get().getTextColor(skinType));
+            if (isSetSkinTextColor) {
+                setTextColor(mSkinTextColor);
+            } else {
+                setTextColor(Skin.get().getTextColor(skinType));
+            }
         }
         invalidate();
     }
@@ -301,11 +326,23 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
 
     @Override
     public void onRefreshSkin(Skin skin) {
-        setUnpressedColor(skin.getColor(skinType));
-        if (mShapeType == SHAPE_TYPE_STROKE) {
-            setTextColor(skin.getColor(skinType));
+        if (isSetSkinColor) {
+            setUnpressedColor(mSkinColor);
         } else {
-            setTextColor(skin.getTextColor(skinType));
+            setUnpressedColor(skin.getColor(skinType));
+        }
+        if (mShapeType == SHAPE_TYPE_STROKE || mShapeType == SHAPE_TYPE_TRANSPARENT) {
+            if (isSetSkinColor) {
+                setTextColor(mSkinColor);
+            } else {
+                setTextColor(skin.getColor(skinType));
+            }
+        } else {
+            if (isSetSkinTextColor) {
+                setTextColor(mSkinTextColor);
+            } else {
+                setTextColor(skin.getTextColor(skinType));
+            }
         }
         if (skinRefreshListener != null) {
             skinRefreshListener.onRefreshSkin(skin);
