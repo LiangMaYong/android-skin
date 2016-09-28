@@ -7,6 +7,45 @@ this is android skin
 ```
 compile 'com.liangmayong.android:skin:$LatestVersion'
 ```
+## skin view
+SkinView
+
+SkinButton
+
+SkinTextView
+
+SkinRelativeLayout
+
+SkinLinearLayout
+##　setting skin
+```
+Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
+```
+
+## styleable
+```
+<declare-styleable name="SkinStyleable">
+<attr name="pressed_color" format="color" />
+<attr name="pressed_alpha" format="integer" />
+<attr name="stroke_width" format="dimension" />
+<attr name="radius" format="dimension" />
+<attr name="shape_type" format="enum">
+    <enum name="round" value="0" />
+    <enum name="rectangle" value="1" />
+    <enum name="stroke" value="2" />
+    <enum name="oval" value="3" />
+</attr>
+<attr name="skin_type" format="enum">
+    <enum name="defualt" value="0" />
+    <enum name="primary" value="1" />
+    <enum name="success" value="2" />
+    <enum name="info" value="3" />
+    <enum name="warning" value="4" />
+    <enum name="danger" value="5" />
+    <enum name="white" value="6" />
+</attr>
+</declare-styleable>
+```
 ##License
 ```
 Copyright 2016 LiangMaYong

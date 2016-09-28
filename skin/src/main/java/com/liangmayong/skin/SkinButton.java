@@ -21,6 +21,7 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     public static final int SHAPE_TYPE_ROUND = 0;
     public static final int SHAPE_TYPE_RECTANGLE = 1;
     public static final int SHAPE_TYPE_STROKE = 2;
+    public static final int SHAPE_TYPE_OVAL = 3;
 
     protected int mWidth;
     protected int mHeight;
@@ -28,7 +29,7 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     protected int mShapeType;
     protected int mRadius;
     protected int mStrokeWidth;
-    private int COVER_ALPHA = 48;
+    private int mPressedAlpha = 50;
     private Paint mPressedPaint;
     private int mPressedColor;
     private Skin.SkinType skinType = Skin.SkinType.defualt;
@@ -41,20 +42,20 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
 
     public SkinButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initSkinBaseButton(context, attrs);
+        initBG(context, attrs);
     }
 
 
     public SkinButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initSkinBaseButton(context, attrs);
+        initBG(context, attrs);
     }
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SkinButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initSkinBaseButton(context, attrs);
+        initBG(context, attrs);
     }
 
     public void setStrokeWidth(int mStrokeWidth) {
@@ -74,17 +75,19 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    protected void initSkinBaseButton(final Context context, final AttributeSet attrs) {
+    protected void initBG(final Context context, final AttributeSet attrs) {
         if (isInEditMode()) return;
         int color = 0xff333333;
+        mPressedColor = 0xff333333;
         if (attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SkinStyleable);
             mShapeType = typedArray.getInt(R.styleable.SkinStyleable_shape_type, SHAPE_TYPE_RECTANGLE);
             mRadius = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_radius, dip2px(context, 5));
+            mPressedColor = typedArray.getColor(R.styleable.SkinStyleable_pressed_color, mPressedColor);
+            mPressedAlpha = typedArray.getInteger(R.styleable.SkinStyleable_pressed_alpha, mPressedAlpha);
             mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_stroke_width, dip2px(context, 2));
             int skin = typedArray.getInt(R.styleable.SkinStyleable_skin_type, skinType.value());
             skinType = Skin.SkinType.valueOf(skin);
-            color = typedArray.getColor(R.styleable.SkinStyleable_color, color);
             typedArray.recycle();
         }
         mBackgroundPaint = new Paint();
@@ -92,14 +95,13 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
         mBackgroundPaint.setStyle(Paint.Style.FILL);
         mBackgroundPaint.setAlpha(Color.alpha(color));
         mBackgroundPaint.setColor(color);
-        mBackgroundPaint.setAntiAlias(true);
 
         this.setWillNotDraw(false);
         this.setDrawingCacheEnabled(true);
         this.setClickable(true);
         this.eraseOriginalBackgroundColor(color);
         Skin.registerSkinRefresh(this);
-        initSkinButton(context, attrs);
+        initPR(context, attrs);
     }
 
     @Override
@@ -128,8 +130,14 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
         if (mShapeType == SHAPE_TYPE_ROUND) {
             mBackgroundPaint.setStyle(Paint.Style.FILL);
             mBackgroundPaint.setStrokeWidth(0);
-            canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth / 2,
+            canvas.drawCircle(mWidth / 2, mHeight / 2, Math.min(mHeight / 2, mWidth / 2),
                     mBackgroundPaint);
+        } else if (mShapeType == SHAPE_TYPE_OVAL) {
+            mBackgroundPaint.setStyle(Paint.Style.FILL);
+            mBackgroundPaint.setStrokeWidth(0);
+            RectF rectF = new RectF();
+            rectF.set(0, 0, mWidth, mHeight);
+            canvas.drawOval(rectF, mBackgroundPaint);
         } else if (mShapeType == SHAPE_TYPE_STROKE) {
             mBackgroundPaint.setStyle(Paint.Style.STROKE);
             mBackgroundPaint.setStrokeJoin(Paint.Join.MITER);
@@ -145,8 +153,8 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
             }
             canvas.drawRoundRect(rectF, mRadius, mRadius, mBackgroundPaint);
         }
-        super.onDraw(canvas);
         onPressedDraw(canvas);
+        super.onDraw(canvas);
     }
 
 
@@ -156,15 +164,12 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
         }
     }
 
-    protected void initSkinButton(Context context, AttributeSet attrs) {
-        mPressedColor = 0x9c000000;
-
+    protected void initPR(Context context, AttributeSet attrs) {
         mPressedPaint = new Paint();
         mPressedPaint.setAntiAlias(true);
         mPressedPaint.setStyle(Paint.Style.FILL);
         mPressedPaint.setColor(mPressedColor);
         mPressedPaint.setAlpha(0);
-        mPressedPaint.setAntiAlias(true);
     }
 
 
@@ -184,19 +189,14 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
     }
 
     private void onPressedDraw(Canvas canvas) {
-        if (mShapeType == 0) {
-            mPressedPaint.setStyle(Paint.Style.FILL);
-            mBackgroundPaint.setStrokeWidth(0);
-            canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth / 2.1038f,
+        if (mShapeType == SHAPE_TYPE_ROUND) {
+            canvas.drawCircle(mWidth / 2, mHeight / 2, Math.min(mHeight / 2.1038f, mWidth / 2.1038f),
                     mPressedPaint);
-        } else if (mShapeType == SHAPE_TYPE_STROKE) {
-            mPressedPaint.setStyle(Paint.Style.STROKE);
-            mPressedPaint.setStrokeJoin(Paint.Join.MITER);
-            mPressedPaint.setStrokeWidth(mStrokeWidth);
-            canvas.drawPath(getPath(0, 0, mWidth, mHeight), mPressedPaint);
+        } else if (mShapeType == SHAPE_TYPE_OVAL) {
+            RectF rectF = new RectF();
+            rectF.set(0, 0, mWidth, mHeight);
+            canvas.drawOval(rectF, mPressedPaint);
         } else {
-            mPressedPaint.setStyle(Paint.Style.FILL);
-            mBackgroundPaint.setStrokeWidth(0);
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
             canvas.drawRoundRect(rectF, mRadius, mRadius, mPressedPaint);
@@ -209,7 +209,7 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
         if (isClickable()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    mPressedPaint.setAlpha(COVER_ALPHA);
+                    mPressedPaint.setAlpha(mPressedAlpha);
                     invalidate();
                     break;
                 case MotionEvent.ACTION_CANCEL:
