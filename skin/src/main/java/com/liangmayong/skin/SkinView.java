@@ -87,7 +87,7 @@ public class SkinView extends View implements OnSkinRefreshListener {
         if (attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SkinStyleable);
             mShapeType = typedArray.getInt(R.styleable.SkinStyleable_shape_type, SHAPE_TYPE_RECTANGLE);
-            mRadius = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_radius, dip2px(context, 5));
+            mRadius = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_radius, 0);
             mPressedColor = typedArray.getColor(R.styleable.SkinStyleable_pressed_color, mPressedColor);
             mPressedAlpha = typedArray.getInteger(R.styleable.SkinStyleable_pressed_alpha, mPressedAlpha);
             mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_stroke_width, dip2px(context, 2));
