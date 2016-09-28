@@ -91,7 +91,7 @@ public class SkinLinearLayout extends LinearLayout implements OnSkinRefreshListe
             mRadius = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_radius, 0);
             mPressedColor = typedArray.getColor(R.styleable.SkinStyleable_pressed_color, mPressedColor);
             mPressedAlpha = typedArray.getInteger(R.styleable.SkinStyleable_pressed_alpha, mPressedAlpha);
-            mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_stroke_width, dip2px(context, 2));
+            mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_stroke_width, dip2px(context, 1f));
             int skin = typedArray.getInt(R.styleable.SkinStyleable_skin_type, skinType.value());
             skinType = Skin.SkinType.valueOf(skin);
             if (typedArray.hasValue(R.styleable.SkinStyleable_skin_color)) {
