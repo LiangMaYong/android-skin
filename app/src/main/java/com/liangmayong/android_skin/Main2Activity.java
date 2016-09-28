@@ -12,11 +12,11 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Skin.editor().setThemeColor(0xffff6585, 0xffffffff).commit();
+        Skin.editor().setThemeColor(0xfffcb815, 0xff333333).commit();
     }
 
     public void click(View view) {
-        Skin.editor().setThemeColor(0xff3399ff, 0xff333333).commit();
+        Skin.editor().setThemeColor(0xffff6585, 0xff333333).commit();
         finish();
     }
 

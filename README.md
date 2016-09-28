@@ -59,6 +59,7 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
     <enum name="transparent" value="4" />
 </attr>
 <attr name="skin_color" format="color" />
+<attr name="transparent" format="boolean" />
 <attr name="skin_text_color" format="color" />
 <attr name="skin_type" format="enum">
     <enum name="defualt" value="0" />
