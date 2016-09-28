@@ -38,4 +38,6 @@ public interface SkinInterface extends OnSkinRefreshListener {
     int getSkinColor();
 
     int getSkinTextColor();
+
+    void setBackgroundCoverColor(int color);
 }

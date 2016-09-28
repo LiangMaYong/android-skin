@@ -49,6 +49,9 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
 <declare-styleable name="SkinStyleable">
 <attr name="pressed_color" format="color" />
 <attr name="pressed_alpha" format="integer" />
+<attr name="background_transparent" format="boolean" />
+<attr name="background_cover" format="color" />
+<attr name="background_alpha" format="integer" />
 <attr name="stroke_width" format="dimension" />
 <attr name="radius" format="dimension" />
 <attr name="shape_type" format="enum">
@@ -59,7 +62,6 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
     <enum name="transparent" value="4" />
 </attr>
 <attr name="skin_color" format="color" />
-<attr name="transparent" format="boolean" />
 <attr name="skin_text_color" format="color" />
 <attr name="skin_type" format="enum">
     <enum name="defualt" value="0" />

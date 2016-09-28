@@ -21,10 +21,13 @@ public class SkinTextView extends TextView implements SkinInterface {
     protected int mWidth;
     protected int mHeight;
     protected Paint mBackgroundPaint;
+    protected Paint mBackgroundCoverPaint;
+    protected int mBackgroundCoverColor = 0x00ffffff;
     protected int mShapeType;
     protected int mRadius;
     protected int mStrokeWidth;
     private int mPressedAlpha = 50;
+    private int mBackgroundAlpha = 255;
     private Paint mPressedPaint;
     private int mPressedColor;
     private int mSkinColor;
@@ -84,8 +87,10 @@ public class SkinTextView extends TextView implements SkinInterface {
             mShapeType = typedArray.getInt(R.styleable.SkinStyleable_shape_type, SHAPE_TYPE_TRANSPARENT);
             mRadius = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_radius, dip2px(context, 2));
             mPressedColor = typedArray.getColor(R.styleable.SkinStyleable_pressed_color, mPressedColor);
+            mBackgroundCoverColor = typedArray.getColor(R.styleable.SkinStyleable_background_cover, mBackgroundCoverColor);
             mPressedAlpha = typedArray.getInteger(R.styleable.SkinStyleable_pressed_alpha, mPressedAlpha);
-            mBackgroundTransparent = typedArray.getBoolean(R.styleable.SkinStyleable_transparent, mBackgroundTransparent);
+            mBackgroundAlpha = typedArray.getInteger(R.styleable.SkinStyleable_background_alpha, mBackgroundAlpha);
+            mBackgroundTransparent = typedArray.getBoolean(R.styleable.SkinStyleable_background_transparent, mBackgroundTransparent);
             mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_stroke_width, dip2px(context, 1.4f));
             int skin = typedArray.getInt(R.styleable.SkinStyleable_skin_type, skinType.value());
             skinType = Skin.SkinType.valueOf(skin);
@@ -102,8 +107,13 @@ public class SkinTextView extends TextView implements SkinInterface {
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setAntiAlias(true);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setAlpha(Color.alpha(color));
+        mBackgroundPaint.setAlpha(mBackgroundAlpha);
         mBackgroundPaint.setColor(color);
+        mBackgroundCoverPaint = new Paint();
+        mBackgroundCoverPaint.setAntiAlias(true);
+        mBackgroundCoverPaint.setStyle(Paint.Style.FILL);
+        mBackgroundCoverPaint.setAlpha(Color.alpha(mBackgroundCoverColor));
+        mBackgroundCoverPaint.setColor(mBackgroundCoverColor);
 
         this.setWillNotDraw(false);
         this.setDrawingCacheEnabled(true);
@@ -125,51 +135,50 @@ public class SkinTextView extends TextView implements SkinInterface {
         mHeight = h;
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
-        onBackgroundDraw(canvas);
+        onBackgroundDraw(mBackgroundPaint, canvas, mBackgroundTransparent);
+        onBackgroundDraw(mBackgroundCoverPaint, canvas, false);
         onPressedDraw(canvas);
         super.onDraw(canvas);
     }
 
-    private void onBackgroundDraw(Canvas canvas) {
-        if (mBackgroundPaint == null || mBackgroundTransparent) {
+    private void onBackgroundDraw(Paint paint, Canvas canvas, boolean isTransparent) {
+        if (paint == null || isTransparent) {
             return;
         }
         if (mRadius > mHeight / 2 || mRadius > mWidth / 2) {
             mRadius = Math.min(mHeight / 2, mWidth / 2);
         }
         if (mShapeType == SHAPE_TYPE_ROUND) {
-            mBackgroundPaint.setStyle(Paint.Style.FILL);
-            mBackgroundPaint.setStrokeWidth(0);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setStrokeWidth(0);
             canvas.drawCircle(mWidth / 2, mHeight / 2, Math.min(mHeight / 2, mWidth / 2),
-                    mBackgroundPaint);
+                    paint);
         } else if (mShapeType == SHAPE_TYPE_OVAL) {
-            mBackgroundPaint.setStyle(Paint.Style.FILL);
-            mBackgroundPaint.setStrokeWidth(0);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setStrokeWidth(0);
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
-            canvas.drawOval(rectF, mBackgroundPaint);
+            canvas.drawOval(rectF, paint);
         } else if (mShapeType == SHAPE_TYPE_TRANSPARENT) {
 
         } else if (mShapeType == SHAPE_TYPE_STROKE) {
-            mBackgroundPaint.setStyle(Paint.Style.STROKE);
-            mBackgroundPaint.setStrokeJoin(Paint.Join.MITER);
-            mBackgroundPaint.setStrokeWidth(mStrokeWidth);
-            canvas.drawPath(getPath(0, 0, mWidth, mHeight), mBackgroundPaint);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeJoin(Paint.Join.MITER);
+            paint.setStrokeWidth(mStrokeWidth);
+            canvas.drawPath(getPath(0, 0, mWidth, mHeight), paint);
         } else {
-            mBackgroundPaint.setStyle(Paint.Style.FILL);
-            mBackgroundPaint.setStrokeWidth(0);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setStrokeWidth(0);
             RectF rectF = new RectF();
             rectF.set(0, 0, mWidth, mHeight);
             if (mRadius > mHeight / 2 || mRadius > mWidth / 2) {
                 mRadius = Math.min(mHeight / 2, mWidth / 2);
             }
-            canvas.drawRoundRect(rectF, mRadius, mRadius, mBackgroundPaint);
+            canvas.drawRoundRect(rectF, mRadius, mRadius, paint);
         }
     }
-
 
     protected void eraseOriginalBackgroundColor(int color) {
         if (color != Color.TRANSPARENT) {
@@ -237,11 +246,6 @@ public class SkinTextView extends TextView implements SkinInterface {
         return super.onTouchEvent(event);
     }
 
-    /**
-     * Set the unpressed color.
-     *
-     * @param color the color of the background
-     */
     private void setUnpressedColor(int color) {
         mBackgroundPaint.setAlpha(Color.alpha(color));
         mBackgroundPaint.setColor(color);
@@ -249,6 +253,12 @@ public class SkinTextView extends TextView implements SkinInterface {
         invalidate();
     }
 
+    public void setBackgroundCoverColor(int color) {
+        mBackgroundCoverPaint.setAlpha(Color.alpha(color));
+        mBackgroundCoverPaint.setColor(color);
+        eraseOriginalBackgroundColor(color);
+        invalidate();
+    }
 
     public int getShapeType() {
         return mShapeType;
