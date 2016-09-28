@@ -1,23 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liangmayong.skin.SkinLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:skin="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:background="#eeeeee"
     android:gravity="center"
-    android:orientation="vertical"
-    skin:shape_type="rectangle"
-    skin:skin_type="white"
-    skin:stroke_width="5dp">
+    android:orientation="vertical">
 
-    <com.liangmayong.skin.SkinTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:onClick="click"
-        android:padding="5dp"
-        android:text="Hello Skin!"
-        skin:shape_type="stroke" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="defualt"
+                skin:shape_type="stroke"
+                skin:skin_type="defualt" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="primary"
+                skin:shape_type="stroke"
+                skin:skin_type="primary" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="danger"
+                skin:shape_type="stroke"
+                skin:skin_type="danger" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="warning"
+                skin:shape_type="stroke"
+                skin:skin_type="warning" />
+
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="gray"
+                skin:shape_type="stroke"
+                skin:skin_type="gray" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="success"
+                skin:shape_type="stroke"
+                skin:skin_type="success" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="info"
+                skin:shape_type="stroke"
+                skin:skin_type="info" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="black"
+                skin:shape_type="stroke"
+                skin:skin_type="black" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="white"
+                skin:shape_type="stroke"
+                skin:skin_type="white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="defualt"
+                skin:shape_type="rectangle"
+                skin:skin_type="defualt" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="primary"
+                skin:shape_type="rectangle"
+                skin:skin_type="primary" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="danger"
+                skin:shape_type="rectangle"
+                skin:skin_type="danger" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="warning"
+                skin:shape_type="rectangle"
+                skin:skin_type="warning" />
+
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="gray"
+                skin:shape_type="rectangle"
+                skin:skin_type="gray" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="success"
+                skin:shape_type="rectangle"
+                skin:skin_type="success" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="info"
+                skin:shape_type="rectangle"
+                skin:skin_type="info" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="black"
+                skin:shape_type="rectangle"
+                skin:skin_type="black" />
+
+            <com.liangmayong.skin.SkinTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="white"
+                skin:shape_type="rectangle"
+                skin:skin_type="white" />
+        </LinearLayout>
+    </LinearLayout>
 
     <com.liangmayong.skin.SkinButton
         android:layout_width="wrap_content"
@@ -30,4 +223,4 @@
         skin:shape_type="stroke"
         skin:skin_type="gray"
         skin:stroke_width="2dp" />
-</com.liangmayong.skin.SkinLinearLayout>
+</LinearLayout>

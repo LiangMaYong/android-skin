@@ -1,13 +1,10 @@
 package com.liangmayong.android_skin;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.liangmayong.skin.Skin;
-import com.liangmayong.skin.SkinButton;
-import com.liangmayong.skin.SkinInterface;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,13 +15,16 @@ public class MainActivity extends AppCompatActivity {
         Skin.editor().setThemeColor(0xffff6585, 0xff333333).commit();
     }
 
+    boolean c = false;
+
     public void click(View view) {
-        if (((SkinInterface) view).getShapeType() == SkinButton.SHAPE_TYPE_STROKE) {
-            ((SkinInterface) view).setShapeType(SkinButton.SHAPE_TYPE_RECTANGLE);
+        if (c) {
+            c = false;
+            Skin.editor().setThemeColor(0xffff6585, 0xff333333).commit();
         } else {
-            ((SkinInterface) view).setShapeType(SkinButton.SHAPE_TYPE_STROKE);
+            c = true;
+            Skin.editor().setThemeColor(0xff3399ff, 0xff333333).commit();
         }
-        startActivity(new Intent(this, Main2Activity.class));
     }
 
 }
