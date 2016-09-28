@@ -27,7 +27,7 @@ compile 'com.liangmayong.android:skin:$LatestVersion'
         skin:shape_type="stroke"
         skin:stroke_width="2dp" />
 ```
-## skin view
+## Skin View
 SkinView
 
 SkinButton
