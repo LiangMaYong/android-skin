@@ -98,7 +98,6 @@ public class SkinButton extends Button implements OnSkinRefreshListener {
 
         this.setWillNotDraw(false);
         this.setDrawingCacheEnabled(true);
-        this.setClickable(true);
         this.eraseOriginalBackgroundColor(color);
         Skin.registerSkinRefresh(this);
         initPR(context, attrs);
