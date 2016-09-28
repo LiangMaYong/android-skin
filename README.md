@@ -3,11 +3,11 @@ this is android skin library and UI
 
 [![LatestVersion](https://img.shields.io/badge/LatestVersion-1.0.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-skin/releases/tag/V1.0.0)
 
-## gradle
+## Gradle
 ```
 compile 'com.liangmayong.android:skin:$LatestVersion'
 ```
-## get start
+## Get Start
 ```
 <com.liangmayong.skin.SkinButton
         xmlns:skin="http://schemas.android.com/apk/res-auto"
@@ -39,12 +39,12 @@ SkinRelativeLayout
 SkinSquareLayout
 
 SkinLinearLayout
-##　setting skin
+## Setting Skin
 ```
 Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
 ```
 
-## styleable
+## Styleable
 ```
 <declare-styleable name="SkinStyleable">
 <attr name="pressed_color" format="color" />
@@ -72,7 +72,7 @@ Skin.editor().setThemeColor(0xff3399ff, 0xffffffff).commit();
 </attr>
 </declare-styleable>
 ```
-##License
+## License
 ```
 Copyright 2016 LiangMaYong
 
