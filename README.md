@@ -7,6 +7,26 @@ this is android skin library and UI
 ```
 compile 'com.liangmayong.android:skin:$LatestVersion'
 ```
+## get start
+```
+<com.liangmayong.skin.SkinButton
+        xmlns:skin="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:onClick="click"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="SKIN-BUTTON"
+        skin:pressed_color="#000000"
+        skin:pressed_alpha="48"
+        skin:skin_color="#3399ff"
+        skin:skin_text_color="#ffffff"
+        skin:radius="2dp"
+        skin:skin_type="primary"
+        skin:shape_type="stroke"
+        skin:stroke_width="2dp" />
+```
 ## skin view
 SkinView
 
