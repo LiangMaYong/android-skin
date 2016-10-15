@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
     public void click(View view) {
         if (c) {
             c = false;
-            Skin.editor().setThemeColor(0xffff6585, 0xff333333).commit();
+            Skin.editor().setThemeColor(0xffff6585, 0xff333333).setDangerColor(0xffff6585,0xffffffff).setPrimaryColor(0xff3399ff,0xffffffff).setSuccessColor(0xff18a28b,0xffffffff).commit();
         } else {
             c = true;
-            Skin.editor().setThemeColor(0xff3399ff, 0xff333333).commit();
+            Skin.editor().reset().commit();
         }
     }
 

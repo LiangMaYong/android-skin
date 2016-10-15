@@ -204,7 +204,8 @@ public class Skin {
         @Override
         public void onReceive(Context context, Intent intent) {
             String process = intent.getStringExtra("process");
-            if (process != null && !process.equals(getCurrentProcessName(context) + "@" + hashCode())) {
+            String current = getCurrentProcessName(context) + "@" + Skin.get().hashCode();
+            if (process != null && !process.equals(current)) {
                 boolean flag = false;
                 flag = flag || getSharedPreferences().getInt("themeColor", themeColor) != themeColor;
                 flag = flag || getSharedPreferences().getInt("primaryColor", primaryColor) != primaryColor;
@@ -234,7 +235,7 @@ public class Skin {
         //grayTextColor
         grayTextColor = 0xffffffff;
         //themeColor
-        themeColor = 0xff333333;
+        themeColor = 0xff428bca;
         //themeTextColor
         themeTextColor = 0xffffffff;
         //primaryColor
@@ -258,11 +259,24 @@ public class Skin {
         warningTextColor = 0xffffffff;
         //dangerColor
         dangerTextColor = 0xffffffff;
+        getSharedPreferences().edit().putInt("grayColor", grayColor)
+                .putInt("grayTextColor", grayTextColor)
+                .putInt("themeColor", themeColor)
+                .putInt("primaryColor", primaryColor)
+                .putInt("successColor", successColor)
+                .putInt("infoColor", infoColor)
+                .putInt("warningColor", warningColor)
+                .putInt("dangerColor", dangerColor)
+                .putInt("themeTextColor", themeTextColor)
+                .putInt("primaryTextColor", primaryTextColor)
+                .putInt("successTextColor", successTextColor)
+                .putInt("infoTextColor", infoTextColor)
+                .putInt("warningTextColor", warningTextColor)
+                .putInt("dangerTextColor", dangerTextColor)
+                .commit();
     }
 
     private void initColorValue() {
-        grayColor = getSharedPreferences().getInt("grayColor", grayColor);
-        grayTextColor = getSharedPreferences().getInt("grayTextColor", grayTextColor);
         //colors
         themeColor = getSharedPreferences().getInt("themeColor", themeColor);
         primaryColor = getSharedPreferences().getInt("primaryColor", primaryColor);
@@ -270,6 +284,7 @@ public class Skin {
         infoColor = getSharedPreferences().getInt("infoColor", infoColor);
         warningColor = getSharedPreferences().getInt("warningColor", warningColor);
         dangerColor = getSharedPreferences().getInt("dangerColor", dangerColor);
+        grayColor = getSharedPreferences().getInt("grayColor", grayColor);
 
         //text colors
         themeTextColor = getSharedPreferences().getInt("themeTextColor", themeTextColor);
@@ -278,6 +293,7 @@ public class Skin {
         infoTextColor = getSharedPreferences().getInt("infoTextColor", infoTextColor);
         warningTextColor = getSharedPreferences().getInt("warningTextColor", warningTextColor);
         dangerTextColor = getSharedPreferences().getInt("dangerTextColor", dangerTextColor);
+        grayTextColor = getSharedPreferences().getInt("grayTextColor", grayTextColor);
     }
 
     private int grayColor = 0;
@@ -836,7 +852,7 @@ public class Skin {
         public void commit() {
             refreshSkin();
             Intent intent = new Intent(getApplication().getPackageName() + SKIN_RECEIVER_ACTION);
-            intent.putExtra("process", getCurrentProcessName(getApplication()) + "@" + hashCode());
+            intent.putExtra("process", getCurrentProcessName(getApplication()) + "@" + Skin.get().hashCode());
             getApplication().sendBroadcast(intent);
         }
 
