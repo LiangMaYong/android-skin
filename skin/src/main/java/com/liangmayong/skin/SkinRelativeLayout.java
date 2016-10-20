@@ -120,8 +120,13 @@ public class SkinRelativeLayout extends RelativeLayout implements SkinInterface 
         this.setWillNotDraw(false);
         this.setDrawingCacheEnabled(true);
         this.eraseOriginalBackgroundColor(color);
-        Skin.registerSkinRefresh(this);
         initPR(context, attrs);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Skin.registerSkinRefresh(this);
     }
 
     @Override

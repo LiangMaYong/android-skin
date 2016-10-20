@@ -66,6 +66,12 @@ public class SkinButton extends Button implements SkinInterface {
         invalidate();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Skin.registerSkinRefresh(this);
+    }
+
     /**
      * dip2px
      *
@@ -118,7 +124,6 @@ public class SkinButton extends Button implements SkinInterface {
         this.setWillNotDraw(false);
         this.setDrawingCacheEnabled(true);
         this.eraseOriginalBackgroundColor(color);
-        Skin.registerSkinRefresh(this);
         initPR(context, attrs);
     }
 
