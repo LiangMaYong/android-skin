@@ -193,7 +193,7 @@ public class Skin {
     };
 
     private Skin() {
-        resetColorValue();
+        defualtColorValue();
         initColorValue();
         IntentFilter filter = new IntentFilter();
         filter.addAction(getApplication().getPackageName() + SKIN_RECEIVER_ACTION);
@@ -226,10 +226,7 @@ public class Skin {
         }
     }
 
-    /**
-     * resetColorValue
-     */
-    private void resetColorValue() {
+    private void defualtColorValue() {
         //grayColor
         grayColor = 0xffb1b1b1;
         //grayTextColor
@@ -259,6 +256,13 @@ public class Skin {
         warningTextColor = 0xffffffff;
         //dangerColor
         dangerTextColor = 0xffffffff;
+    }
+
+    /**
+     * resetColorValue
+     */
+    private void resetColorValue() {
+        defualtColorValue();
         getSharedPreferences().edit().putInt("grayColor", grayColor)
                 .putInt("grayTextColor", grayTextColor)
                 .putInt("themeColor", themeColor)
