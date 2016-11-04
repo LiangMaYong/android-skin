@@ -79,7 +79,6 @@ public class SkinView extends View implements SkinInterface {
     }
 
     protected void initBG(final Context context, final AttributeSet attrs) {
-        if (isInEditMode()) return;
         int color = 0xff333333;
         mPressedColor = 0xff333333;
         if (attrs != null) {
@@ -124,13 +123,15 @@ public class SkinView extends View implements SkinInterface {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (isInEditMode()) return;
         Skin.registerSkinRefresh(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        Skin.unregisterSkinRefresh(this);
         super.onDetachedFromWindow();
+        if (isInEditMode()) return;
+        Skin.unregisterSkinRefresh(this);
     }
 
     @Override

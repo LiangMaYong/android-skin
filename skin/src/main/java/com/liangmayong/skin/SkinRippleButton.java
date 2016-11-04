@@ -66,9 +66,6 @@ public class SkinRippleButton extends SkinButton {
     }
 
     protected void init(final Context context) {
-        if (isInEditMode()) {
-            return;
-        }
         mRippleColor = 0xffeeeeee;
         mRippleAlpha = RIPPLR_ALPHA;
         mRippleDuration = 1000;

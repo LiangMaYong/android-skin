@@ -1,7 +1,7 @@
 ﻿# android-skin
 this is android skin library and UI
 
-[![LatestVersion](https://img.shields.io/badge/LatestVersion-1.0.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-skin/releases/tag/V1.0.0)
+[![LatestVersion](https://img.shields.io/badge/LatestVersion-1.1.0-brightgreen.svg?style=plastic) ](https://github.com/LiangMaYong/android-skin/releases)
 
 ## Gradle
 ```
