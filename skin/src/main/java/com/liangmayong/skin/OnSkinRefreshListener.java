@@ -10,5 +10,5 @@ public interface OnSkinRefreshListener {
      *
      * @param skin skin
      */
-    void onRefreshSkin(Skin skin);
+    void onSkinRefresh(Skin skin);
 }

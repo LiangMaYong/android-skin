@@ -82,7 +82,7 @@ public class Skin {
     public static void registerSkinRefresh(OnSkinRefreshListener refreshListener) {
         if (refreshListener != null && !SKIN_REFRESH_LISTENERS.contains(refreshListener)) {
             SKIN_REFRESH_LISTENERS.add(refreshListener);
-            refreshListener.onRefreshSkin(get());
+            refreshListener.onSkinRefresh(get());
         }
     }
 
@@ -102,7 +102,7 @@ public class Skin {
      */
     public static void refreshSkin() {
         for (int i = 0; i < SKIN_REFRESH_LISTENERS.size(); i++) {
-            SKIN_REFRESH_LISTENERS.get(i).onRefreshSkin(get());
+            SKIN_REFRESH_LISTENERS.get(i).onSkinRefresh(get());
         }
     }
 

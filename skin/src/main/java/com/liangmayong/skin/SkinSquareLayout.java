@@ -117,6 +117,14 @@ public class SkinSquareLayout extends LinearLayout implements SkinInterface {
             }
             typedArray.recycle();
         }
+        if (isInEditMode()) {
+            if (!mSetSkinColor) {
+                this.mSkinColor = mPressedColor;
+                this.mSkinTextColor = 0xffffffff;
+                this.mSetSkinColor = true;
+                this.mSetSkinTextColor = true;
+            }
+        }
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setAntiAlias(true);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
@@ -339,6 +347,19 @@ public class SkinSquareLayout extends LinearLayout implements SkinInterface {
         invalidate();
     }
 
+
+    @Override
+    public void onSkinRefresh(Skin skin) {
+        if (mSetSkinColor) {
+            setUnpressedColor(mSkinColor);
+        } else {
+            setUnpressedColor(skin.getColor(skinType));
+        }
+        if (skinRefreshListener != null) {
+            skinRefreshListener.onSkinRefresh(skin);
+        }
+    }
+
     // skinRefreshListener
     private OnSkinRefreshListener skinRefreshListener = null;
 
@@ -354,14 +375,10 @@ public class SkinSquareLayout extends LinearLayout implements SkinInterface {
         setShapeType(mShapeType);
     }
 
-    public void setSkinColor(int mSkinColor) {
-        this.mSkinColor = mSkinColor;
+    public void setSkinColor(int skinColor, int skinTextColor) {
+        this.mSkinColor = skinColor;
+        this.mSkinTextColor = skinTextColor;
         this.mSetSkinColor = true;
-        setShapeType(mShapeType);
-    }
-
-    public void setSkinTextColor(int mSkinTextColor) {
-        this.mSkinTextColor = mSkinTextColor;
         this.mSetSkinTextColor = true;
         setShapeType(mShapeType);
     }
@@ -382,17 +399,5 @@ public class SkinSquareLayout extends LinearLayout implements SkinInterface {
             return Skin.get().getTextColor(skinType);
         }
         return mSkinTextColor;
-    }
-
-    @Override
-    public void onRefreshSkin(Skin skin) {
-        if (mSetSkinColor) {
-            setUnpressedColor(mSkinColor);
-        } else {
-            setUnpressedColor(skin.getColor(skinType));
-        }
-        if (skinRefreshListener != null) {
-            skinRefreshListener.onRefreshSkin(skin);
-        }
     }
 }
