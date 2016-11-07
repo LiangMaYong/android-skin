@@ -8,7 +8,7 @@ this is android skin library and UI
 compile 'com.liangmayong.android:skin:$LatestVersion'
 ```
 ## Screenshot
-![Screenshot]()
+![Screenshot](https://github.com/LiangMaYong/android-skin/blob/master/screenshot/screenshot.png?raw=true)
 ## Get Start
 ```
 <com.liangmayong.skin.SkinButton
