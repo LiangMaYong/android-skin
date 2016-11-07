@@ -220,7 +220,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="SKIN-BUTTON"
-        skin:shape_type="stroke"
-        skin:skin_type="gray"
+        skin:shape_type="rectangle"
+        skin:skin_type="danger"
         skin:stroke_width="2dp" />
 </LinearLayout>

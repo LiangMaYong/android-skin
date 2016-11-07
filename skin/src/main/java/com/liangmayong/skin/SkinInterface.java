@@ -3,7 +3,7 @@ package com.liangmayong.skin;
 /**
  * Created by LiangMaYong on 2016/9/28.
  */
-public interface SkinInterface extends com.liangmayong.skin.OnSkinRefreshListener {
+public interface SkinInterface extends OnSkinRefreshListener {
 
     int SHAPE_TYPE_ROUND = 0;
     int SHAPE_TYPE_RECTANGLE = 1;

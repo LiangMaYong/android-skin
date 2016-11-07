@@ -82,11 +82,13 @@ public class SkinButton extends Button implements SkinInterface {
         setTextColor(0xffffffff);
         int color = 0xff333333;
         mPressedColor = 0xff333333;
+        int preview_color = -1;
         if (attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SkinStyleable);
             mShapeType = typedArray.getInt(R.styleable.SkinStyleable_shape_type, SHAPE_TYPE_RECTANGLE);
             mRadius = typedArray.getDimensionPixelSize(R.styleable.SkinStyleable_radius, dip2px(context, 2));
             mPressedColor = typedArray.getColor(R.styleable.SkinStyleable_pressed_color, mPressedColor);
+            preview_color = typedArray.getColor(R.styleable.SkinStyleable_preview_color, preview_color);
             mBackgroundCoverColor = typedArray.getColor(R.styleable.SkinStyleable_background_cover, mBackgroundCoverColor);
             mPressedAlpha = typedArray.getInteger(R.styleable.SkinStyleable_pressed_alpha, mPressedAlpha);
             mBackgroundAlpha = typedArray.getInteger(R.styleable.SkinStyleable_background_alpha, mBackgroundAlpha);
@@ -105,9 +107,44 @@ public class SkinButton extends Button implements SkinInterface {
             typedArray.recycle();
         }
         if (isInEditMode()) {
+            if (preview_color != -1) {
+                mPressedColor = preview_color;
+            } else {
+                switch (skinType) {
+                    case gray:
+                        mPressedColor = 0xffb1b1b1;
+                        break;
+                    case primary:
+                        mPressedColor = 0xff428bca;
+                        break;
+                    case success:
+                        mPressedColor = 0xff5cb85c;
+                        break;
+                    case warning:
+                        mPressedColor = 0xfff0ad4e;
+                        break;
+                    case info:
+                        mPressedColor = 0xff5bc0de;
+                        break;
+                    case danger:
+                        mPressedColor = 0xffd9534f;
+                        break;
+                    case white:
+                        mPressedColor = 0xffffffff;
+                        break;
+                    case defualt:
+                        mPressedColor = 0xff428bca;
+                        break;
+                }
+            }
+            color = mPressedColor;
             if (!mSetSkinColor) {
                 this.mSkinColor = mPressedColor;
-                this.mSkinTextColor = 0xffffffff;
+                if (skinType == Skin.SkinType.white) {
+                    this.mSkinTextColor = 0xff333333;
+                } else {
+                    this.mSkinTextColor = 0xffffffff;
+                }
                 this.mSetSkinColor = true;
                 this.mSetSkinTextColor = true;
             }

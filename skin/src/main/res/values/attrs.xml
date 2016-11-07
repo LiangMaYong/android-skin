@@ -6,6 +6,7 @@
         <attr name="background_transparent" format="boolean" />
         <attr name="background_cover" format="color" />
         <attr name="background_alpha" format="integer" />
+        <attr name="preview_color" format="color" />
         <attr name="stroke_width" format="dimension" />
         <attr name="radius" format="dimension" />
         <attr name="shape_type" format="enum">

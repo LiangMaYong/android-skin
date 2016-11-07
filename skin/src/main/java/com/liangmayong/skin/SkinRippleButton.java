@@ -28,6 +28,7 @@ public class SkinRippleButton extends SkinButton {
     private int mRippleDuration;
     private int mRippleRadius;
     private float pointX, pointY;
+    private boolean isDown = false;
 
     private Paint mRipplePaint;
     private RectF mRectF;
@@ -57,18 +58,24 @@ public class SkinRippleButton extends SkinButton {
 
     public SkinRippleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (isInEditMode()) {
+            return;
+        }
         init(context);
     }
 
     public SkinRippleButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        if (isInEditMode()) {
+            return;
+        }
         init(context);
     }
 
     protected void init(final Context context) {
         mRippleColor = 0xffeeeeee;
         mRippleAlpha = RIPPLR_ALPHA;
-        mRippleDuration = 1000;
+        mRippleDuration = 800;
         mShapeType = 1;
         mRoundRadius = dip2px(getContext(), 2);
         mRipplePaint = new Paint();
@@ -84,10 +91,15 @@ public class SkinRippleButton extends SkinButton {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (isInEditMode()) {
+            return;
+        }
         if (mRipplePaint == null) {
             return;
         }
-        drawFillCircle(canvas);
+        if (isDown) {
+            drawFillCircle(canvas);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -96,7 +108,10 @@ public class SkinRippleButton extends SkinButton {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             pointX = event.getX();
             pointY = event.getY();
+            isDown = true;
             onStartDrawRipple();
+        } else {
+            isDown = false;
         }
         return super.onTouchEvent(event);
     }
