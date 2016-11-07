@@ -76,7 +76,6 @@ public class SkinRippleButton extends SkinButton {
         mRippleColor = 0xffeeeeee;
         mRippleAlpha = RIPPLR_ALPHA;
         mRippleDuration = 800;
-        mShapeType = 1;
         mRoundRadius = dip2px(getContext(), 2);
         mRipplePaint = new Paint();
         mRipplePaint.setColor(mRippleColor);
