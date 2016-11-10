@@ -16,12 +16,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * SkinRippleButton
+ * SkinRippleLinearLayout
  *
  * @author LiangMaYong
  * @version 1.0
  */
-public class SkinRippleButton extends SkinButton {
+public class SkinRippleLinearLayout extends SkinLinearLayout {
 
     private int mRoundRadius;
     private int mRippleColor;
@@ -52,11 +52,11 @@ public class SkinRippleButton extends SkinButton {
     private final static int RIPPLR_ALPHA = 47;
     private final static int MSG_DRAW_COMPLETE = 101;
 
-    public SkinRippleButton(Context context) {
+    public SkinRippleLinearLayout(Context context) {
         super(context);
     }
 
-    public SkinRippleButton(Context context, AttributeSet attrs) {
+    public SkinRippleLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         if (isInEditMode()) {
             return;
@@ -64,7 +64,7 @@ public class SkinRippleButton extends SkinButton {
         init(context);
     }
 
-    public SkinRippleButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SkinRippleLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         if (isInEditMode()) {
             return;
@@ -73,6 +73,7 @@ public class SkinRippleButton extends SkinButton {
     }
 
     protected void init(final Context context) {
+        setClickable(true);
         mRippleColor = 0xffeeeeee;
         mRippleAlpha = RIPPLR_ALPHA;
         mRippleDuration = 800;
